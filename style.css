@@ -1,1 +1,74 @@
-﻿
+﻿.calc-area {
+    width: 40%;
+    margin-left: 28%;
+    margin-top: 3%;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.input-area{
+    width: 95%;
+    margin: 3%;
+    text-align:center;
+    margin-bottom:2%;
+}
+
+    .input-area input {
+        width: 42%;
+        height: 30px;
+        display:inline-block;
+        margin: 2%;
+        margin-left: 1%;
+        margin-bottom: 0;
+        padding-left: 2%
+    }
+
+.field-header{
+    display: inline-block;
+    width: 42%;
+    margin: 0 2%;
+    text-align:left
+}
+
+.tip {
+    margin-top: 1px;
+    color: slategray;
+    font-family: monospace;
+    font-size: smaller;
+    text-align: left;
+    margin-left: 5.5%;
+}
+
+
+.action-area{
+    width: 90%;
+    margin-left: 6%;
+}
+
+
+.one-step{
+    width: 19%;
+    margin: 2%
+}
+
+.two-steps {
+    width: 11%;
+    margin: 1.5px;
+    margin-top:0;
+}
+
+h3{
+    margin-top:0;
+
+}
+
+.answer{
+    display:block;
+    border: 0.5px solid slategray;
+    width: 60%;
+    text-align:center;
+    font-family: sans-serif;
+    padding:13px;
+    margin-left:20%
+}
+

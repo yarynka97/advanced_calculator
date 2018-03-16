@@ -2,15 +2,14 @@
     getDefaultProps: function () {
         return {
             buttons: [
-                { id: "addition", text: "+", className: "two-step" },
-                { id: "subtraction", text: "-", className: "two-step" },
-                { id: "multiplication", text: "*", className: "two-step" },
-                { id: "division", text: "/", className: "two-step" },
-                { id: "getResult", text: "=", className: "one-step" },
-                { id: "middle", text: "Mid", className: "one-step" },
-                { id: "width", text: "Wid", className: "one-step" },
-                { id: "radius", text: "Rad", className: "one-step" },
-                { id: "absolute", text: "Max", className: "one-step" }
+                { id: "middle", text: "Mid", className: "btn btn-success one-step" },
+                { id: "width", text: "Wid", className: "btn btn-success one-step" },
+                { id: "radius", text: "Rad", className: "btn btn-success one-step" },
+                { id: "absolute", text: "Abs", className: "btn btn-success one-step" },
+                { id: "addition", text: "+", className: "btn btn-info two-steps" },
+                { id: "subtraction", text: "-", className: "btn btn-info two-steps" },
+                { id: "multiplication", text: "*", className: "btn btn-info two-steps" },
+                { id: "division", text: "/", className: "btn btn-info two-steps" }
             ]
         }
     },
@@ -22,19 +21,23 @@
     componentWillMount: function () {
         sessionStorage.clear();
     },
-    receiveAnswer: function (newAnswer) {
-        this.state.answer = newAnswer;
-        //this.setState({ answer: newAnswer });
+    receiveAnswer: function () {
+        this.setState({ answer: sessionStorage.getItem('answer') });
     },
     render: function () {
         return (
-            <div className="calc-area">
-                <InputArea />
+            <div className="card border-success mb-3 calc-area">
+                <h2 className="card-header">Interval Calculator</h2>
+                <InputArea className="card-body" />
                 <ActionChoiceAria
+                    className="card-body"
                     buttons={this.props.buttons}
                     onAnswerFound={this.receiveAnswer}
                 />
-                <span className="answer"> Answer: {this.state.answer}</span>
+                <div className="card-body">
+                    <h3 className="card-title">Result</h3>
+                    <p className="card-text answer"> {this.state.answer}</p>
+                </div>
             </div>
         )
     }
@@ -44,15 +47,17 @@ var InputArea = React.createClass({
     render: function () {
         return (
             <div className="input-area">
+                <p className='lead field-header'>First interval</p>
+                <p className='lead field-header'>Second interval</p>
                 <InputField
                     key="first"
                     id="first"
                 />
-                <p>Enter an interval a,b using the format as in example: 1,3.4</p>
                 <InputField
                     key="second"
                     id="second"
                 />
+                <p className='tip'>Enter an interval a,b using the format as in example: 1,3.4</p>
             </div>
         )
     }
@@ -61,25 +66,38 @@ var InputArea = React.createClass({
 var InputField = React.createClass({
     handleTextChange: function (event) {
         var inputText = event.target.value;
-        var values = inputText.split(',');
-        var correct = false;
-        if (values.length === 2) {
-            if (!isNaN(Number.parseFloat(values[0])) && !isNaN(Number.parseFloat(values[1]))) {
-                correct = true;
-            }
-        }
-
-        if (correct) {
+        if (inputText === '') {
             if (this.props.id === "first") {
-                sessionStorage.setItem('firstInterval', values);
+                sessionStorage.removeItem('firstInterval');
             } else {
-                sessionStorage.setItem('secondInterval', values);
+                sessionStorage.removeItem('secondInterval');
             }
-        }
+        } else {
+            var values = inputText.split(',');
+            var correct = false;
+            if (values.length === 2) {
+                if (!isNaN(Number.parseFloat(values[0])) && !isNaN(Number.parseFloat(values[1]))) {
+                    correct = true;
+                    if (Number.parseFloat(values[0]) > Number.parseFloat(values[1])) {
+                        var c = values[0];
+                        values[0] = values[1];
+                        values[1] = c;
+                    }
+                }
+            }
+
+            if (correct) {
+                if (this.props.id === "first") {
+                    sessionStorage.setItem('firstInterval', values);
+                } else {
+                    sessionStorage.setItem('secondInterval', values);
+                }
+            }
+        }    
     },
     render: function () {
         return (
-            <input type="text" onChange={this.handleTextChange} />
+            <input type="text" className="form-control  is-valid" onChange={this.handleTextChange} />
         )
     }
 });
@@ -113,7 +131,7 @@ var Button = React.createClass({
         return arr;
     },
     action: function () {
-        var operation = sessionStorage.getItem('operation');
+        var operation = this.props.children;;
         var first = sessionStorage.getItem('firstInterval');
         var second = sessionStorage.getItem('secondInterval');
         var answer = [];
@@ -151,13 +169,14 @@ var Button = React.createClass({
                         answer = (firstInterval[1] - firstInterval[0]) / 2;
                         break;
                     case "Rad":
-                        answer[0] = (firstInterval[1] + firstInterval[0]) / 2;
+                        answer = (firstInterval[1] + firstInterval[0]) / 2;
                         break;
-                    case "Max":
-                        answer[0] = Math.max(Math.abs(firstInterval[0]), Math.abs(firstInterval[1]));
+                    case "Abs":
+                        answer[0] = 0;
+                        answer[1] = Math.max(Math.abs(firstInterval[0]), Math.abs(firstInterval[1]));
                         break;
                     case "Wid":
-                        answer[0] = firstInterval[1] - firstInterval[0];
+                        answer = firstInterval[1] - firstInterval[0];
                         break;
                     default:
                         answer = "Enter second interval correctly";
@@ -166,48 +185,12 @@ var Button = React.createClass({
             }
         }else answer = "Your input is incorrect";   
 
-        console.log(answer);
-        this.props.onAnswerFound(answer);
-    },
-    onButtonClicked: function () {
-        var chosenOperation = this.props.children;
-        switch (chosenOperation) {
-            case "+":
-                sessionStorage.setItem('operation', chosenOperation);
-                break;
-            case "-":
-                sessionStorage.setItem('operation', chosenOperation);
-                break;
-            case "*":
-                sessionStorage.setItem('operation', chosenOperation);
-                break;
-            case "/":
-                sessionStorage.setItem('operation', chosenOperation);
-                break;
-            case "Mid":
-                sessionStorage.setItem('operation', chosenOperation)
-                this.action();
-                break;
-            case "Rad":
-                sessionStorage.setItem('operation', chosenOperation)
-                this.action();
-                break;
-            case "Max":
-                sessionStorage.setItem('operation', chosenOperation)
-                this.action();
-                break;
-            case "Wid":
-                sessionStorage.setItem('operation', chosenOperation)
-                this.action();
-                break;
-            case "=":
-                this.action();
-                break;
-        }
+        sessionStorage.setItem('answer', answer);
+        this.props.onAnswerFound();
     },
     render: function () {
         return (
-            <button className={this.props.className} onClick={this.onButtonClicked}>{this.props.children}</button>
+            <button className={this.props.className} onClick={this.action}>{this.props.children}</button>
         )
     }
 });
