@@ -9,11 +9,12 @@
 .input-area{
     width: 95%;
     margin: 3%;
+    margin-top:2%;
     text-align:center;
     margin-bottom:2%;
 }
 
-    .input-area input {
+.input-area input {
         width: 42%;
         height: 30px;
         display:inline-block;
@@ -38,9 +39,12 @@
     text-align: left;
     margin-left: 5.5%;
 }
+.explanation {
+    font-size: small;
+    margin-top: 1.5%;
+} 
 
-
-.action-area{
+.action-area {
     width: 90%;
     margin-left: 6%;
 }
@@ -71,4 +75,3 @@ h3{
     padding:13px;
     margin-left:20%
 }
-
