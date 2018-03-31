@@ -2,12 +2,9 @@
 import ReactDOM from 'react-dom';
 import InputArea from './InputArea';
 import ActionChoiceArea from './ActionChoiceArea';
-//require("../style.css");
+
 
 class Calc extends React.Component{
-    componentWillMount (){
-        sessionStorage.clear();
-    }
     static defaultProps = {
             buttons: [
                 { id: "middle", text: "Mid", className: "btn btn-success one-step" },

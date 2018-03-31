@@ -17,7 +17,7 @@ class Matrix extends React.Component{
     
     render () {
         return (
-            <div className="calc-area">
+            <div className="card border-success mb-3 calc-area">
                 <h2 className="card-header">SLAE Calculator</h2>
                 <p className='explanation tip'>Solves the system of linear algebraic equations 2x2 for interval numbers</p>
                 <div className="input-area card-body">
@@ -56,7 +56,7 @@ class Matrix extends React.Component{
                 </div>
                 <Button
                     key="solveMatrix"
-                    className="btn btn-success one-step"
+                    className="btn btn-success slae-button"
                     onAnswerFound={this.answerFound}
                 >Solve</Button>
                 <div className="card-body">
