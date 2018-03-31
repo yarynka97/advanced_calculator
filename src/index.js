@@ -1,14 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calc from './components/Calc';
-import Matrix from './components/Matrix';
+import CalcContainer from './components/CalcContainer'
 require("./style.css");
 
 ReactDOM.render(
-    <div>
-        <Calc />
-        <Matrix />
-    </div>,
+    <CalcContainer />,
     document.getElementById("calc")
 );
 
