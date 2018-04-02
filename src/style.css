@@ -1,7 +1,12 @@
-﻿.calc-area {
+﻿.main-container {
+    margin-top: 1.5%;
+    display: block;
     width: 40%;
-    margin-left: 28%;
-    margin-top: 3%;
+    margin-left: 28%
+}
+
+.calc-area {
+    margin-top: 1.5%;
     border: 1px solid black;
     text-align: center;
 }
@@ -74,4 +79,9 @@ h3{
     font-family: sans-serif;
     padding:13px;
     margin-left:20%
+}
+
+.slae-button{
+    width: 40%;
+    margin-left: 30%
 }
